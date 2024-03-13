@@ -1,1 +1,14 @@
-disp('test') 
+% Perform linear regression for ERA
+model_ERA = fitlm(ERA', WinPercentage);
+R2_ERA = model_ERA.Rsquared.Ordinary;
+disp(['R^2 Value for ERA: ', num2str(R2_ERA)]);
+
+% Perform linear regression for batting average
+mpdel_BattingAverage = fitlm(BattingAverage', WinPercentage);
+R2_BattingAverage = mpdel_BattingAverage.Rsquared.Ordinary;
+disp(['R^2 Value for Batting Average: ', num2str(R2_BattingAverage)]);
+
+% Perform linear regression for fielding percentage
+model_FieldingPercentage = fitlm(FieldingPercentage', WinPercentage); %fits linear regression
+R2_FieldingPercentage = model_FieldingPercentage.Rsquared.Ordinary;
+disp(['R^2 Value for Fielding Percentage: ', num2str(R2_FieldingPercentage)]);
