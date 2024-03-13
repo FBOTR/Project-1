@@ -17,3 +17,24 @@ disp(['R^2 Value for Fielding Percentage: ', num2str(R2_FieldingPercentage)]);
 total_R2 = [R2_ERA, R2_BattingAverage, R2_FieldingPercentage];
 best_R2 = total_R2(total_R2 ~> 0.5);
 disp(best_R2);
+
+%make a chart with R^2 values
+%filter for R^2 values above 0.5
+
+% Define predictor variables and response variable
+predictorVariables = [x1, x2, ...]; % Replace with ERA, batting average
+responseVariable = [winpercentage]; % winpercentage
+
+% Fit linear regression model
+model = fitlm(predictorVariables, responseVariable);
+
+% Extract R^2 values for each predictor variable
+R2Values = mdl.Rsquared.Ordinary;
+
+% Display table of variables and their R^2 values
+variableNames = {'Variable 1', 'Variable 2', ...}; % Replace with your variable names
+Table_Correlation_Wins = table(variableNames', R2Values', 'VariableNames', {'Variable', 'R2Value'});
+disp(Table_Correlation);
+
+% Extract variables with R^2 value of 0.5 or higher
+selectedVariables = predictorVariables(:, R2Values >= 0.5);
