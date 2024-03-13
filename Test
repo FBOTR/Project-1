@@ -4,8 +4,8 @@ R2_ERA = model_ERA.Rsquared.Ordinary;
 disp(['R^2 Value for ERA: ', num2str(R2_ERA)]);
 
 % Perform linear regression for batting average
-mpdel_BattingAverage = fitlm(BattingAverage', WinPercentage);
-R2_BattingAverage = mpdel_BattingAverage.Rsquared.Ordinary;
+model_BattingAverage = fitlm(BattingAverage', WinPercentage);
+R2_BattingAverage = model_BattingAverage.Rsquared.Ordinary;
 disp(['R^2 Value for Batting Average: ', num2str(R2_BattingAverage)]);
 
 % Perform linear regression for fielding percentage
