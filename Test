@@ -12,3 +12,6 @@ disp(['R^2 Value for Batting Average: ', num2str(R2_BattingAverage)]);
 model_FieldingPercentage = fitlm(FieldingPercentage', WinPercentage); %fits linear regression
 R2_FieldingPercentage = model_FieldingPercentage.Rsquared.Ordinary;
 disp(['R^2 Value for Fielding Percentage: ', num2str(R2_FieldingPercentage)]);
+
+%make a chart with R^2 values
+%filter for R^2 values above 0.5
