@@ -13,14 +13,6 @@ model_FieldingPercentage = fitlm(FieldingPercentage', WinPercentage); %fits line
 R2_FieldingPercentage = model_FieldingPercentage.Rsquared.Ordinary;
 disp(['R^2 Value for Fielding Percentage: ', num2str(R2_FieldingPercentage)]);
 
-%compile total R^2 values
-total_R2 = [R2_ERA, R2_BattingAverage, R2_FieldingPercentage];
-best_R2 = total_R2(total_R2 ~> 0.5);
-disp(best_R2);
-
-%make a chart with R^2 values
-%filter for R^2 values above 0.5
-
 % Define predictor variables and response variable
 predictorVariables = [x1, x2, ...]; % Replace with ERA, batting average
 responseVariable = [winpercentage]; % winpercentage
