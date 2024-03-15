@@ -13,6 +13,18 @@ model_FieldingPercentage = fitlm(FieldingPercentage', WinPercentage); %fits line
 R2_FieldingPercentage = model_FieldingPercentage.Rsquared.Ordinary;
 disp(['R^2 Value for Fielding Percentage: ', num2str(R2_FieldingPercentage)]);
 
+%Perform linear regression for LOBPercentage
+model_LOBPercentage = fitlm(LOBPercentage', WinPercentage);
+R2_LOBPercentage = model_LOBPercentage.Rsquared.Ordinary;
+disp([R^2 Value for Left On Base Percentage: ', num2str(R2_LOBPercentage)];
+
+%Perform linear regression for home runs
+model_HR = fitlm(HR', WinPercentage);
+R2_HR = model_HR.Rsquared.Ordinary;
+disp([R^2 Value for Home Runs: ', num2str(R2_HR)];
+
+
+
 % Define predictor variables and response variable
 predictorVariables = [x1, x2, ...]; % Replace with ERA, batting average
 responseVariable = [winpercentage]; % winpercentage
