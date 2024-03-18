@@ -6,37 +6,70 @@ disp(['R^2 Value for ERA: ', num2str(R2_ERA)]);
 % Perform linear regression for FIP
 model_FIP = fitlm(FIP', WinPercentage);
 R2_FIP = model_FIP.Rsquared.Ordinary;
-disp(['R^2 Value for FIP: ', num2str(R2_BattingAverage)]);
-
-% Perform linear regression for fielding percentage
-model_FieldingPercentage = fitlm(FieldingPercentage', WinPercentage); %fits linear regression
-R2_FieldingPercentage = model_FieldingPercentage.Rsquared.Ordinary;
-disp(['R^2 Value for Fielding Percentage: ', num2str(R2_FieldingPercentage)]);
+disp(['R^2 Value for FIP: ', num2str(R2_FIP)]);
 
 %Perform linear regression for LOBPercentage
 model_LOBPercentage = fitlm(LOBPercentage', WinPercentage);
 R2_LOBPercentage = model_LOBPercentage.Rsquared.Ordinary;
-disp([R^2 Value for Left On Base Percentage: ', num2str(R2_LOBPercentage)];
+disp([ 'R^2 Value for Left On Base Percentage: ', num2str(R2_LOBPercentage)]);
 
-%Perform linear regression for home runs
+%Perform linear regression for WAR(pitching)
+model_WARp = fitlm(WARp', WinPercentage);
+R2_WARp = model_WARp.Rsquared.Ordinary;
+disp([ 'R^2 Value for WAR (pitching): ', num2str(R2_WARp)]);
+
+%Perform linear regression on Runs Scored
+model_Runs = fitlm(Runs', WinPercentage);
+R2_Runs = model_Runs.Rsquared.Ordinary;
+disp([ 'R^2 Value for Runs Scored: ', num2str(R2_Runs)]);
+
+%Perform linear regression on WAR(Hitting)
+model_WARh = fitlm(WARh', WinPercentage);
+R2_WARh = model_WARh.Rsquared.Ordinary;
+disp([ 'R^2 Value for WAR (hitting): ', num2str(R2_WARh)]);
+
+%Perform linear regression on Saves
+model_Saves = fitlm(Saves', WinPercentage);
+R2_Saves = model_Saves.Rsquared.Ordinary;
+disp([ 'R^2 Value for Saves: ', num2str(R2_Saves)]);
+
+%Perform linear regression on HR/9
+model_HR9 = fitlm(HR9', WinPercentage);
+R2_HR9 = model_HR9.Rsquared.Ordinary;
+disp([ 'R^2 Value for HR/9: ', num2str(R2_HR9)]);
+
+%Perform linear regression on RBI
+model_RBI = fitlm(RBI', WinPercentage);
+R2_RBI = model_RBI.Rsquared.Ordinary;
+disp([ 'R^2 Value for RBI: ', num2str(R2_RBI)]);
+
+%Perform linear regression on wRC+
+model_wRC = fitlm(wRC', WinPercentage);
+R2_wRC = model_wRC.Rsquared.Ordinary;
+disp([ 'R^2 Value for wRC: ', num2str(R2_wRC)]);
+
+%Perform linear regression on Home Runs
 model_HR = fitlm(HR', WinPercentage);
 R2_HR = model_HR.Rsquared.Ordinary;
-disp([R^2 Value for Home Runs: ', num2str(R2_HR)];
+disp([ 'R^2 Value for Home Runs: ', num2str(R2_HR)]);
 
-
+%Perform linear regression on ISO
+model_ISO = fitlm(ISO', WinPercentage);
+R2_ISO = model_ISO.Rsquared.Ordinary;
+disp([ 'R^2 Value for ISO: ', num2str(R2_ISO)]);
 
 % Define predictor variables and response variable
-predictorVariables = [x1, x2, ...]; % Replace with ERA, batting average
-responseVariable = [winpercentage]; % winpercentage
+predictorVariables = [ERA, FIP, LOBPercentage, WARp, Runs, WARh, Saves, HR9, RBI, wRC, HR, ISO];
+responseVariable = [WinPercentage]; % winpercentage
 
 % Fit linear regression model
 model = fitlm(predictorVariables, responseVariable);
 
 % Extract R^2 values for each predictor variable
-R2Values = mdl.Rsquared.Ordinary;
+R2Values = model.Rsquared.Ordinary;
 
 % Display table of variables and their R^2 values
-variableNames = {'Variable 1', 'Variable 2', ...}; % Replace with your variable names
+variableNames = {'ERA', 'FIP', 'LOBPercentage', 'WARp', 'Runs', 'WARh', 'Saves', 'HR9', 'RBI', 'wRC', 'HR', 'ISO'};
 Table_Correlation_Wins = table(variableNames', R2Values', 'VariableNames', {'Variable', 'R2Value'});
 disp(Table_Correlation);
 
