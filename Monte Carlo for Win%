@@ -1,0 +1,45 @@
+
+var1 = 1  %chnage variables to correlated stats
+var2 = 2
+var3 = 2
+var4 = 2
+var5 = 2
+var6 =2
+var7=2
+var8=2
+var9=2
+var10=2
+simulation_runs = %simulation runs
+function [v,SE] = win_percent(var1,var2,var3,var4,var5,var6,var7,var8,var9,var10,simulation_runs)
+win_rate_home=zeros(1,n);% initliaze vectors for storing (home team)
+win_rate_away=zeros(1,n);% initliaze vecotrs for storing (away team)
+
+for i=1:simulation_runs
+    %%injuries
+random_num = normrnd(-3,3); %random zscore to simulate randomness in injuries;
+yankee_injury = 3;
+
+%offense
+offense_home = var1+var2+var3; %change eq
+offense_away = var6+var7+var8;%change eq
+
+%%deffense
+deffense_home = var1+var2+var3; %change eq
+deffense_away = var6+var7+var8;
+%%pitching
+pitching_home = var4+var2+var3; %change eq
+pitching_away = var8+var9+var7;
+
+%win Rate
+win_rate_home(i) = offense_home* 0.30 + deffense_home*0.30 +pitching_home*0.30 +injury_home*.10;%number to win
+win_rate_away(i) = offense_away* 0.30 + deffense_away*0.30 +pitching_away*0.30 +injury_away*.10; %number to win
+
+if win_rate_home(i)<win_rate_away
+win_rate_home(i)=0;
+end
+win_rate_home =  1
+end
+v = mean(win_rate_home); %mean win rate across all simulations
+SE = sqrt((mean(win_rate_home_squared_2)-v*v)/(simulation_runs-1)); $standarde error of win rate
+end
+
