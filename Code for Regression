@@ -3,10 +3,10 @@ model_ERA = fitlm(ERA', WinPercentage);
 R2_ERA = model_ERA.Rsquared.Ordinary;
 disp(['R^2 Value for ERA: ', num2str(R2_ERA)]);
 
-% Perform linear regression for batting average
-model_BattingAverage = fitlm(BattingAverage', WinPercentage);
-R2_BattingAverage = model_BattingAverage.Rsquared.Ordinary;
-disp(['R^2 Value for Batting Average: ', num2str(R2_BattingAverage)]);
+% Perform linear regression for FIP
+model_FIP = fitlm(FIP', WinPercentage);
+R2_FIP = model_FIP.Rsquared.Ordinary;
+disp(['R^2 Value for FIP: ', num2str(R2_BattingAverage)]);
 
 % Perform linear regression for fielding percentage
 model_FieldingPercentage = fitlm(FieldingPercentage', WinPercentage); %fits linear regression
