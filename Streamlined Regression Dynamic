@@ -1,28 +1,34 @@
 % Load the data from the CSV file into a table
-fangraph_data = readtable('Your .csv file name');
+fangraph_data = readtable('/Users/johnkelly/Downloads/Data_AllTeams_2002_2022 (2).csv');
 
-% Define the variable names as separate strings
-stat_names = {'TG', 'G', 'PA', 'HR', 'R', 'RBI', 'SB', 'BB_', 'K_', 'ISO', 'BABIP', 'AVG', 'OBP', 'SLG', 'wOBA','wRC_', 'BsR', 'Off', 'Def', 'WARB', 'Inn', 'TG_1', 'W', 'L', 'SV', 'G_1', 'GS', 'IP', 'K_9', 'BB_9', 'HR_9', 'BABIP_1', 'LOB_', 'GB_', 'HR_FB', 'ERA', 'FIP', 'xFIP', 'WARP', 'Win_'};
+% Extract the names of all the columns (variables) in the table
+stat_names = fangraph_data.Properties.VariableNames(3:end);
 
-% Initialize arrays to store R^2 values and indices
+% Initialize arrays to store R^2 values and correlation coefficients
 R2Values = zeros(numel(stat_names), 1); % Initial R^2 values array
-indices = (1:numel(stat_names))'; % Indices array
+correlation_with_win = zeros(numel(stat_names), 1); % Initial correlation coefficients array
 
-% Perform linear regression and calculate R^2 values for each predictor variable
+% Perform linear regression, calculate R^2 values, and compute correlation coefficients for each predictor variable
 for i = 1:numel(stat_names)
-    model = fitlm(fangraph_data.(stat_names{i}), fangraph_data.Win_); % Linear regression
-    R2Values(i) = model.Rsquared.Ordinary; % Store R^2 value
-    disp(['R^2 Value for ', stat_names{i}, ': ', num2str(R2Values(i))]); % Display R^2 value
+    % Normalize the predictor variable
+    normalized_predictor = (fangraph_data.(stat_names{i}) - min(fangraph_data.(stat_names{i}))) / (max(fangraph_data.(stat_names{i})) - min(fangraph_data.(stat_names{i})));
+    
+    % Linear regression with normalized predictor
+    model = fitlm(normalized_predictor, fangraph_data.Win_);
+    
+    % Store R^2 value
+    R2Values(i) = model.Rsquared.Ordinary;
+    
+    % Compute correlation coefficient with win percentage
+    correlation_with_win(i) = corr(fangraph_data.Win_, fangraph_data.(stat_names{i}));
+    
+    % Display R^2 value and correlation coefficient
+    disp(['R^2 Value for ', stat_names{i}, ': ', num2str(R2Values(i)), ', Correlation with win percentage: ', num2str(correlation_with_win(i))]);
 end
 
-% Create a table of predictor variable names and their R^2 values, ordered by R^2 squared value
-sortedTable = table(stat_names', R2Values, 'VariableNames', {'Variable', 'R2Value'});
-sortedTable = sortrows(sortedTable, 'R2Value', 'descend');
+% Create a table of predictor variable names, their R^2 values, and correlation coefficients
+combinedTable = table(stat_names', R2Values, correlation_with_win, 'VariableNames', {'Variable', 'R2Value', 'CorrelationWithWin'});
 
-% Display the sorted table
-disp(sortedTable);
-
-% Extract variable names with R^2 value of 0.5 or higher
-selectedVariables = sortedTable.Variable(sortedTable.R2Value >= 0.5);
-disp(selectedVariables);
+% Display the combined table
+disp(combinedTable);
 
