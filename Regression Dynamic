@@ -1,8 +1,8 @@
 % Load the data from the CSV file into a table
-fangraph_data = readtable('/Users/johnkelly/Downloads/fangraphs-leaderboards.W%csv (1).csv');
+fangraph_data = readtable('Your .csv file name');
 
 % Define the variable names as separate strings
-stat_names = {'TG', 'G', 'PA', 'HR', 'R', 'RBI', 'SB', 'BB_', 'K_', 'ISO', 'BABIP', 'AVG', 'OBP', 'SLG', 'wOBA', 'xwOBA', 'wRC_', 'BsR', 'Off', 'Def', 'WAR', 'Pos', 'Inn', 'Def_1', 'TG_1', 'W', 'L', 'SV', 'G_1', 'GS', 'IP', 'K_9', 'BB_9', 'HR9_', 'BABIP_1', 'LOB_', 'GB_', 'HR_FB', 'vF_Api_', 'ERA', 'FIP', 'xFIP', 'WAR_1', 'WinP'};
+stat_names = {'TG', 'G', 'PA', 'HR', 'R', 'RBI', 'SB', 'BB_', 'K_', 'ISO', 'BABIP', 'AVG', 'OBP', 'SLG', 'wOBA','wRC_', 'BsR', 'Off', 'Def', 'WARB', 'Inn', 'TG_1', 'W', 'L', 'SV', 'G_1', 'GS', 'IP', 'K_9', 'BB_9', 'HR_9', 'BABIP_1', 'LOB_', 'GB_', 'HR_FB', 'ERA', 'FIP', 'xFIP', 'WARP', 'Win_'};
 
 % Initialize arrays to store R^2 values and indices
 R2Values = zeros(numel(stat_names), 1); % Initial R^2 values array
@@ -10,7 +10,7 @@ indices = (1:numel(stat_names))'; % Indices array
 
 % Perform linear regression and calculate R^2 values for each predictor variable
 for i = 1:numel(stat_names)
-    model = fitlm(fangraph_data.(stat_names{i}), fangraph_data.WinP); % Linear regression
+    model = fitlm(fangraph_data.(stat_names{i}), fangraph_data.Win_); % Linear regression
     R2Values(i) = model.Rsquared.Ordinary; % Store R^2 value
     disp(['R^2 Value for ', stat_names{i}, ': ', num2str(R2Values(i))]); % Display R^2 value
 end
