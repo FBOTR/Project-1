@@ -2,7 +2,7 @@
 fangraph_data = readtable('/Users/johnkelly/Downloads/fangraphs-leaderboards.W%csv (1).csv');
 
 % Define the variable names as separate strings
-stat_names = {'TG', 'G', 'PA', 'HR', 'R', 'RBI', 'SB', 'BB_', 'K_', 'ISO', 'BABIP', 'AVG', 'OBP', 'SLG', 'wOBA', 'xwOBA', 'wRC_', 'BsR', 'Off', 'Def', 'WAR', 'Pos', 'Inn', 'rSZ', 'rCERA', 'rSB', 'rGDP', 'rARM', 'rGFP', 'rPM', 'rTS', 'DRS', 'ARM', 'DPR', 'RngR', 'ErrR', 'UZR', 'UZR_150', 'FRM', 'OAA', 'RAA', 'Def_1', 'TG_1', 'W', 'L', 'SV', 'G_1', 'GS', 'IP', 'K_9', 'BB_9', 'HR9_', 'BABIP_1', 'LOB_', 'GB_', 'HR_FB', 'vF_Api_', 'ERA', 'FIP', 'xFIP', 'WAR_1', 'WinP'};
+stat_names = {'TG', 'G', 'PA', 'HR', 'R', 'RBI', 'SB', 'BB_', 'K_', 'ISO', 'BABIP', 'AVG', 'OBP', 'SLG', 'wOBA', 'xwOBA', 'wRC_', 'BsR', 'Off', 'Def', 'WAR', 'Pos', 'Inn', 'Def_1', 'TG_1', 'W', 'L', 'SV', 'G_1', 'GS', 'IP', 'K_9', 'BB_9', 'HR9_', 'BABIP_1', 'LOB_', 'GB_', 'HR_FB', 'vF_Api_', 'ERA', 'FIP', 'xFIP', 'WAR_1', 'WinP'};
 
 % Initialize arrays to store R^2 values and indices
 R2Values = zeros(numel(stat_names), 1); % Initial R^2 values array
