@@ -1,0 +1,42 @@
+% Load the data from the CSV file into a table
+fangraph_data = readtable('Data_AllTeams_2002_2022.csv');
+
+% Define the variable names as separate strings
+stat_names = {'TG', 'G', 'PA', 'HR', 'R', 'RBI', 'SB', 'BB_', 'K_', 'ISO', 'BABIP', 'AVG', 'OBP', 'SLG', 'wOBA','wRC_', 'BsR', 'Off', 'Def', 'WARB', 'Inn', 'TG_1', 'W', 'L', 'SV', 'G_1', 'GS', 'IP', 'K_9', 'BB_9', 'HR_9', 'BABIP_1', 'LOB_', 'GB_', 'HR_FB', 'ERA', 'FIP', 'xFIP', 'WARP', 'Win_'};
+
+% Initialize arrays to store R^2 values and correlation coefficients
+R2Values = zeros(numel(stat_names), 1); % Initial R^2 values array
+correlation_with_win = zeros(numel(stat_names), 1); % Initial correlation coefficients array
+
+% Perform linear regression, calculate R^2 values, and compute correlation coefficients for each predictor variable
+for i = 1:numel(stat_names)
+    % Normalize the predictor variable
+    normalized_predictor = (fangraph_data.(stat_names{i}) - min(fangraph_data.(stat_names{i}))) / (max(fangraph_data.(stat_names{i})) - min(fangraph_data.(stat_names{i})));
+    
+    % Linear regression with normalized predictor
+    model = fitlm(normalized_predictor, fangraph_data.Win_);
+    
+    % Store R^2 value
+    R2Values(i) = model.Rsquared.Ordinary;
+    
+    % Compute correlation coefficient with win percentage
+    correlation_with_win(i) = corr(fangraph_data.Win_, fangraph_data.(stat_names{i}));
+    
+    % Display R^2 value and correlation coefficient
+    disp(['R^2 Value for ', stat_names{i}, ': ', num2str(R2Values(i)), ', Correlation with win percentage: ', num2str(correlation_with_win(i))]);
+end
+
+% Create a table of predictor variable names, their R^2 values, and correlation coefficients
+combinedTable = table(stat_names', R2Values, correlation_with_win, 'VariableNames', {'Variable', 'R2Value', 'CorrelationWithWin'});
+
+% Display the combined table
+selectedVariables = combinedTable.Variable(combinedTable.CorrelationWithWin >= 0.5);
+negVariables = combinedTable.Variable(combinedTable.CorrelationWithWin <= -0.5);
+% Display positively correlated variables
+disp('Positively correlated variables:');
+disp(selectedVariables);
+
+% Display negatively correlated variables
+disp('Negatively correlated variables:');
+disp(negVariables);
+disp(combinedTable);
