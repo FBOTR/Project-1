@@ -1,34 +1,55 @@
-% Load the data from the CSV file into a table
+ % Load the data from the CSV file into a table
 fangraph_data = readtable('/Users/johnkelly/Downloads/Data_AllTeams_2002_2022 (2).csv');
 
 % Extract the names of all the columns (variables) in the table
 stat_names = fangraph_data.Properties.VariableNames(3:end);
 
 % Initialize arrays to store R^2 values and correlation coefficients
-R2Values = zeros(numel(stat_names), 1); % Initial R^2 values array
-correlation_with_win = zeros(numel(stat_names), 1); % Initial correlation coefficients array
+R2Values_all = zeros(numel(stat_names), 1); % Initial R^2 values array for all teams
+R2Values_yankees = zeros(numel(stat_names), 1); % Initial R^2 values array for Yankees
+correlation_with_win_all = zeros(numel(stat_names), 1); % Initial correlation coefficients array for all teams
+correlation_with_win_yankees = zeros(numel(stat_names), 1); % Initial correlation coefficients array for Yankees
 
 % Perform linear regression, calculate R^2 values, and compute correlation coefficients for each predictor variable
 for i = 1:numel(stat_names)
     % Normalize the predictor variable
     normalized_predictor = (fangraph_data.(stat_names{i}) - min(fangraph_data.(stat_names{i}))) / (max(fangraph_data.(stat_names{i})) - min(fangraph_data.(stat_names{i})));
     
-    % Linear regression with normalized predictor
-    model = fitlm(normalized_predictor, fangraph_data.Win_);
+    % Linear regression with normalized predictor for all teams
+    model_all = fitlm(normalized_predictor, fangraph_data.Win_);
     
-    % Store R^2 value
-    R2Values(i) = model.Rsquared.Ordinary;
+    % Store R^2 value for all teams
+    R2Values_all(i) = model_all.Rsquared.Ordinary;
     
-    % Compute correlation coefficient with win percentage
-    correlation_with_win(i) = corr(fangraph_data.Win_, fangraph_data.(stat_names{i}));
+    % Compute correlation coefficient with win percentage for all teams
+    correlation_with_win_all(i) = corr(fangraph_data.Win_, fangraph_data.(stat_names{i}));
     
-    % Display R^2 value and correlation coefficient
-    disp(['R^2 Value for ', stat_names{i}, ': ', num2str(R2Values(i)), ', Correlation with win percentage: ', num2str(correlation_with_win(i))]);
+    % Filter data for Yankees
+    yankees_data = fangraph_data(fangraph_data.Team == "NYY", :);
+    
+    % Linear regression with normalized predictor for Yankees
+    model_yankees = fitlm((yankees_data.(stat_names{i}) - min(yankees_data.(stat_names{i}))) / (max(yankees_data.(stat_names{i})) - min(yankees_data.(stat_names{i}))), yankees_data.Win_);
+    
+    % Store R^2 value for Yankees
+    R2Values_yankees(i) = model_yankees.Rsquared.Ordinary;
+    
+    % Compute correlation coefficient with win percentage for Yankees
+    correlation_with_win_yankees(i) = corr(yankees_data.Win_, yankees_data.(stat_names{i}));
+    
+    % Display R^2 value and correlation coefficient for all teams
+    disp(['All Teams - R^2 Value for ', stat_names{i}, ': ', num2str(R2Values_all(i)), ', Correlation with win percentage: ', num2str(correlation_with_win_all(i))]);
+    
+    % Display R^2 value and correlation coefficient for Yankees
+    disp(['Yankees - R^2 Value for ', stat_names{i}, ': ', num2str(R2Values_yankees(i)), ', Correlation with win percentage: ', num2str(correlation_with_win_yankees(i))]);
 end
 
-% Create a table of predictor variable names, their R^2 values, and correlation coefficients
-combinedTable = table(stat_names', R2Values, correlation_with_win, 'VariableNames', {'Variable', 'R2Value', 'CorrelationWithWin'});
+% Create tables of predictor variable names, their R^2 values, and correlation coefficients for all teams and Yankees
+table_all = table(stat_names', R2Values_all, correlation_with_win_all, 'VariableNames', {'Variable', 'R2Value_All', 'CorrelationWithWin_All'});
+table_yankees = table(stat_names', R2Values_yankees, correlation_with_win_yankees, 'VariableNames', {'Variable', 'R2Value_Yankees', 'CorrelationWithWin_Yankees'});
 
-% Display the combined table
-disp(combinedTable);
+% Display the tables
+disp("Results for all teams:");
+disp(table_all);
+disp("Results for the Yankees:");
+disp(table_yankees);
 
