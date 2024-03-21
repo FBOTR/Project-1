@@ -12,6 +12,8 @@ correlation_with_win_yankees = zeros(numel(stat_names), 1); % Initial correlatio
 
 % Perform linear regression, calculate R^2 values, and compute correlation coefficients for each predictor variable
 for i = 1:numel(stat_names)
+%check if variable is numeric
+    if isnumeric(fangraph_data.(stat_names{i}))
     % Normalize the predictor variable
     normalized_predictor = (fangraph_data.(stat_names{i}) - min(fangraph_data.(stat_names{i}))) / (max(fangraph_data.(stat_names{i})) - min(fangraph_data.(stat_names{i})));
     
@@ -41,6 +43,9 @@ for i = 1:numel(stat_names)
     
     % Display R^2 value and correlation coefficient for Yankees
     disp(['Yankees - R^2 Value for ', stat_names{i}, ': ', num2str(R2Values_yankees(i)), ', Correlation with win percentage: ', num2str(correlation_with_win_yankees(i))]);
+    else
+        disp(['Variable "', stat_names{i}, '" is not numeric, variable skipped.']);
+    end
 end
 
 % Create tables of predictor variable names, their R^2 values, and correlation coefficients for all teams and Yankees
