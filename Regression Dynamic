@@ -1,0 +1,28 @@
+% Load the data from the CSV file into a table
+fangraph_data = readtable('/Users/johnkelly/Downloads/fangraphs-leaderboards.W%csv (1).csv');
+
+% Define the variable names as separate strings
+stat_names = {'TG', 'G', 'PA', 'HR', 'R', 'RBI', 'SB', 'BB_', 'K_', 'ISO', 'BABIP', 'AVG', 'OBP', 'SLG', 'wOBA', 'xwOBA', 'wRC_', 'BsR', 'Off', 'Def', 'WAR', 'Pos', 'Inn', 'rSZ', 'rCERA', 'rSB', 'rGDP', 'rARM', 'rGFP', 'rPM', 'rTS', 'DRS', 'ARM', 'DPR', 'RngR', 'ErrR', 'UZR', 'UZR_150', 'FRM', 'OAA', 'RAA', 'Def_1', 'TG_1', 'W', 'L', 'SV', 'G_1', 'GS', 'IP', 'K_9', 'BB_9', 'HR9_', 'BABIP_1', 'LOB_', 'GB_', 'HR_FB', 'vF_Api_', 'ERA', 'FIP', 'xFIP', 'WAR_1', 'WinP'};
+
+% Initialize arrays to store R^2 values and indices
+R2Values = zeros(numel(stat_names), 1); % Initial R^2 values array
+indices = (1:numel(stat_names))'; % Indices array
+
+% Perform linear regression and calculate R^2 values for each predictor variable
+for i = 1:numel(stat_names)
+    model = fitlm(fangraph_data.(stat_names{i}), fangraph_data.WinP); % Linear regression
+    R2Values(i) = model.Rsquared.Ordinary; % Store R^2 value
+    disp(['R^2 Value for ', stat_names{i}, ': ', num2str(R2Values(i))]); % Display R^2 value
+end
+
+% Create a table of predictor variable names and their R^2 values, ordered by R^2 squared value
+sortedTable = table(stat_names', R2Values, 'VariableNames', {'Variable', 'R2Value'});
+sortedTable = sortrows(sortedTable, 'R2Value', 'descend');
+
+% Display the sorted table
+disp(sortedTable);
+
+% Extract variable names with R^2 value of 0.5 or higher
+selectedVariables = sortedTable.Variable(sortedTable.R2Value >= 0.5);
+disp(selectedVariables);
+
