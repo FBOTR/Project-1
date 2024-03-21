@@ -1,1 +1,104 @@
-readmatrix(fangraphs-leaderboards)
+from pybaseball import schedule_and_record
+data = schedule_and_record(2002,2022, 'NYY')
+print(data)
+data.to_csv('comp_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2003, 'NYY')
+print(data)
+data.to_csv('2003_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2004, 'NYY')
+print(data)
+data.to_csv('2004_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2005, 'NYY')
+print(data)
+data.to_csv('2005_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2006, 'NYY')
+print(data)
+data.to_csv('2006_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2007, 'NYY')
+print(data)
+data.to_csv('2007_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2008, 'NYY')
+print(data)
+data.to_csv('2008_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2009, 'NYY')
+print(data)
+data.to_csv('2009_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2010, 'NYY')
+print(data)
+data.to_csv('2010_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2011, 'NYY')
+print(data)
+data.to_csv('2011_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2012, 'NYY')
+print(data)
+data.to_csv('2012_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2013, 'NYY')
+print(data)
+data.to_csv('2013_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2014, 'NYY')
+print(data)
+data.to_csv('2014_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2015, 'NYY')
+print(data)
+data.to_csv('2015_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2016, 'NYY')
+print(data)
+data.to_csv('2016_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2017, 'NYY')
+print(data)
+data.to_csv('2017_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2018, 'NYY')
+print(data)
+data.to_csv('2018_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2019, 'NYY')
+print(data)
+data.to_csv('2019_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2020, 'NYY')
+print(data)
+data.to_csv('2020_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2021, 'NYY')
+print(data)
+data.to_csv('2021_baseball_data.csv')
+
+from pybaseball import schedule_and_record
+data = schedule_and_record(2022, 'NYY')
+print(data)
+data.to_csv('2022_baseball_data.csv')
