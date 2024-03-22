@@ -1,4 +1,5 @@
-%In this code, I updated the previous regression code that I had made so that instead of writing out the code for each variable, it runs through a loop for all the variables in the dataset that we are using%
+% Regression code Volume 1 ended up being every inefficient: I would have had to manually make a model for each of the 30 variables
+%updated the previous regression code that I had made so that instead of writing out the code for each variable, it runs through a loop for all the variables in the dataset that we are using
 
 % Load the data from the CSV file into a table
 fangraph_data = readtable('Data_AllTeams_2002_2022.csv');
