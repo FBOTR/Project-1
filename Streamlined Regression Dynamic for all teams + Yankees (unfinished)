@@ -99,7 +99,7 @@ disp("Results for the Yankees:");
 disp(table_yankees);
 % Sort the table for Yankees by R^2 value from greatest to least
 table_yankees_sorted = sortrows(table_yankees, 'R2Value_Yankees', 'descend');
-
+%{
 % Display the arrays
 disp("All R2 values greater than or equal to 0.5:");
 disp(R2_all_greater_than_05);
@@ -118,3 +118,83 @@ disp("Yankees correlation values greater than or equal to 0.5:");
 disp(yankees_Corr_greater_than_05);
 disp("Yankees correlation values less than or equal to -0.5:");
 disp(yankees_Corr_less_than_neg_05);
+%}
+
+% Find the indices of variables "W", "L", and "Win_"
+indices_to_exclude = ismember(stat_names, {'W', 'L', 'Win_'});
+
+% Exclude the variables from the lists
+R2_all_greater_than_05 = setdiff(R2_all_greater_than_05, stat_names(indices_to_exclude));
+R2_all_less_than_neg_05 = setdiff(R2_all_less_than_neg_05, stat_names(indices_to_exclude));
+R2_yankees_greater_than_05 = setdiff(R2_yankees_greater_than_05, stat_names(indices_to_exclude));
+R2_yankees_less_than_neg_05 = setdiff(R2_yankees_less_than_neg_05, stat_names(indices_to_exclude));
+
+Corr_greater_than_05 = setdiff(Corr_greater_than_05, stat_names(indices_to_exclude));
+Corr_less_than_neg_05 = setdiff(Corr_less_than_neg_05, stat_names(indices_to_exclude));
+yankees_Corr_greater_than_05 = setdiff(yankees_Corr_greater_than_05, stat_names(indices_to_exclude));
+yankees_Corr_less_than_neg_05 = setdiff(yankees_Corr_less_than_neg_05, stat_names(indices_to_exclude));
+
+%{
+ Display the modified lists excluding w, l win_
+disp("All R2 values greater than or equal to 0.5 (excluding W, L, and Win_):");
+disp(R2_all_greater_than_05);
+disp("All R2 values less than or equal to -0.5 (excluding W, L, and Win_):");
+disp(R2_all_less_than_neg_05);
+disp("Yankees R2 values greater than or equal to 0.5 (excluding W, L, and Win_):");
+disp(R2_yankees_greater_than_05);
+disp("Yankees R2 values less than or equal to -0.5 (excluding W, L, and Win_):");
+disp(R2_yankees_less_than_neg_05);
+
+disp("All correlation values greater than or equal to 0.5 (excluding W, L, and Win_):");
+disp(Corr_greater_than_05);
+disp("All correlation values less than or equal to -0.5 (excluding W, L, and Win_):");
+disp(Corr_less_than_neg_05);
+disp("Yankees correlation values greater than or equal to 0.5 (excluding W, L, and Win_):");
+disp(yankees_Corr_greater_than_05);
+disp("Yankees correlation values less than or equal to -0.5 (excluding W, L, and Win_):");
+disp(yankees_Corr_less_than_neg_05);
+%}
+
+%%%MAKING Final tables tables of values that are heavily correlated for
+%%%yankees and league
+
+% Concatenate yankees_Corr_greater_than_05 and yankees_Corr_less_than_neg_05
+yankees_corr_variables = [yankees_Corr_greater_than_05; yankees_Corr_less_than_neg_05];
+
+% Find the corresponding R coefficients and R^2 values for yankees_corr_variables
+yankees_corr_r_values = zeros(size(yankees_corr_variables));
+yankees_corr_r2_values = zeros(size(yankees_corr_variables));
+for i = 1:numel(yankees_corr_variables)
+    idx = find(strcmp(stat_names, yankees_corr_variables{i}));
+    yankees_corr_r_values(i) = correlation_with_win_yankees(idx);
+    yankees_corr_r2_values(i) = R2Values_yankees(idx);
+end
+
+% Create a table for Yankees correlation variables
+yankees_corr_table = table(yankees_corr_variables, yankees_corr_r_values, yankees_corr_r2_values, ...
+    'VariableNames', {'Variable', 'CorrelationCoefficient', 'R2Value'});
+yankees_corr_table = sortrows(yankees_corr_table, 'R2Value', 'descend');
+
+% Concatenate Corr_greater_than_05 and Corr_less_than_neg_05
+all_corr_variables = [Corr_greater_than_05; Corr_less_than_neg_05];
+
+% Find the corresponding R coefficients and R^2 values for all_corr_variables
+all_corr_r_values = zeros(size(all_corr_variables));
+all_corr_r2_values = zeros(size(all_corr_variables));
+for i = 1:numel(all_corr_variables)
+    idx = find(strcmp(stat_names, all_corr_variables{i}));
+    all_corr_r_values(i) = correlation_with_win_all(idx);
+    all_corr_r2_values(i) = R2Values_all(idx);
+end
+
+% Create a table for all teams correlation variables
+all_corr_table = table(all_corr_variables, all_corr_r_values, all_corr_r2_values, ...
+    'VariableNames', {'Variable', 'CorrelationCoefficient', 'R2Value'});
+all_corr_table = sortrows(all_corr_table, 'R2Value', 'descend');
+
+% Display the tables
+disp("Final table for Yankees correlation variables:");
+disp(yankees_corr_table);
+disp("Final table for all teams correlation variables:");
+disp(all_corr_table);
+
