@@ -1,46 +1,37 @@
-
-var1 = 1  %chnage variables to correlated stats
-var2 = 2
-var3 = 2
-var4 = 2
-var5 = 2
-var6 =2
-var7=2
-var8=2
-var9=2
-var10=2
-simulation_runs = %simulation runs
-function [v,SE] = win_percent(var1,var2,var3,var4,var5,var6,var7,var8,var9,var10,simulation_runs)
-win_rate_home=zeros(1,n);% initliaze vectors for storing (home team)
-win_rate_away=zeros(1,n);% initliaze vecotrs for storing (away team)
-
-for i=1:simulation_runs
-    %%injuries
-random_num = normrnd(-3,3); %random zscore to simulate randomness in injuries;
-yankee_injury = 3;
-
-%offense
-offense_home = var1+var2+var3; %change eq
-offense_away = var6+var7+var8;%change eq
-
-%%defense
-defense_home = var1+var2+var3; %change eq
-defense_away = var6+var7+var8;
-
-%%pitching
-pitching_home = var4+var2+var3; %change eq
-pitching_away = var8+var9+var7;
-
-%win Rate
-win_rate_home(i) = offense_home* 0.30 + deffense_home*0.30 +pitching_home*0.30 +injury_home*.10;%number to win
-win_rate_away(i) = offense_away* 0.30 + deffense_away*0.30 +pitching_away*0.30 +injury_away*.10; %number to win
-
-if win_rate_home(i)<win_rate_away
-win_rate_home(i)=0;
+%%%% Control variate for call option.
+%%% control variate : stock price
+%%% v1, SE1 --- control variate with b=1
+%%% v2, SE2 --- control variate with b = b^* (estimated from sample)
+%%% v3, SE3 --- plain MC
+%%% r --- interest rate
+%%% sigma -- volatility
+%%% T --- maturity time
+%%%% S0 --- initial stock price
+%%% K ---strike'
+%%% n -- number of replication
+function [v1, SE1, v2, SE2, v3, SE3] = MC_control_call(S0, r, sigma, T, K, n)
+X = zeros(1,n);
+Y = zeros(1,n);
+H = zeros(1,n);
+for i = 1:n
+Z = normrnd(0,1);
+S = S0*exp((r-0.5*sigma*sigma)*T+sigma*sqrt(T)*Z);
+X(i) = exp(-r*T)*(S-K);
+if X(i)<0
+X(i)=0;
 end
-win_rate_home =  1
+Y(i) = exp(-r*T)*S-S0;
 end
-v = mean(win_rate_home); %mean win rate across all simulations
-SE = sqrt((mean(win_rate_home_squared_2)-v*v)/(simulation_runs-1)); %standarde error of win rate
+b = 1;
+H = X-b*Y;
+v1 = mean(H);
+SE1 = sqrt((mean(H.*H)-v1*v1)/(n-1));
+b = sum((X-mean(X)).*(Y-mean(Y)))/sum((Y-mean(Y)).*(Y-mean(Y)));
+H = X-b*Y;
+v2 = mean(H);
+SE2 = sqrt((mean(H.*H)-v2*v2)/(n-1));
+v3 = mean(X);
+SE3 = sqrt((mean(X.*X)-v3*v3)/(n-1));
 end
+
 
