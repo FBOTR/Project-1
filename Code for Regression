@@ -1,3 +1,5 @@
+%first attempt of writing code for linear regression of variables we want to analyze: ended up being very tedious and inefficient: model scrapped
+
 % Perform linear regression for ERA
 model_ERA = fitlm(ERA', WinPercentage);
 R2_ERA = model_ERA.Rsquared.Ordinary;
