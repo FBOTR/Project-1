@@ -1,5 +1,5 @@
  % Load the data from the CSV file into a table
-fangraph_data = readtable('/Users/johnkelly/Downloads/Data_AllTeams_2002_2022 (2).csv');
+fangraph_data = readtable('/Users/johnkelly/Downloads/updated_data_all_teams.csv');
 
 % Extract the names of all the columns (variables) in the table
 stat_names = fangraph_data.Properties.VariableNames(3:end);
