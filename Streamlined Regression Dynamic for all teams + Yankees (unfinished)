@@ -86,20 +86,19 @@ for i = 1:numel(stat_names)
     end
 end
 
+% Create tables of predictor variable names, their R^2 values, and correlation coefficients for all teams and Yankees
+table_all = table(stat_names', R2Values_all, correlation_with_win_all, 'VariableNames', {'Variable', 'R2Value_All', 'CorrelationWithWin_All'});
+table_yankees = table(stat_names', R2Values_yankees, correlation_with_win_yankees, 'VariableNames', {'Variable', 'R2Value_Yankees', 'CorrelationWithWin_Yankees'});
 % Sort by correlation coefficient with win percentage from least to greatest
-table_all = sortrows(table_all_sorted_R2, 'CorrelationWithWin_All', 'descend');
+table_all = sortrows(table_all, 'CorrelationWithWin_All', 'descend');
 
+% Display the tables
+disp("Results for all teams:");
+disp(table_all);
+disp("Results for the Yankees:");
+disp(table_yankees);
 % Sort the table for Yankees by R^2 value from greatest to least
 table_yankees_sorted = sortrows(table_yankees, 'R2Value_Yankees', 'descend');
-
-% Sort by correlation coefficient with win percentage from least to greatest
-table_yankees_sorted = sortrows(table_yankees_sorted, 'CorrelationWithWin_Yankees', 'descend');
-
-% Display the sorted tables
-disp("Results for all teams");
-disp(table_all_sorted);
-disp("Results for the Yankees");
-disp(table_yankees_sorted);
 
 % Display the arrays
 disp("All R2 values greater than or equal to 0.5:");
