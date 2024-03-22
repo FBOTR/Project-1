@@ -198,3 +198,17 @@ disp(yankees_corr_table);
 disp("Final table for all teams correlation variables:");
 disp(all_corr_table);
 
+fileName='BaseballStatsYankees.xlsx';
+fileNametemplate = 'BaseballStatsYankees_template.xlsx'
+
+copyfile(fileNametemplate, fileName)
+writetable(yankees_corr_table,fileName)
+macopen(fileName)
+
+fileName2='BaseballStatsAll.xlsx';
+
+copyfile(fileNametemplate, fileName2)
+writetable(all_corr_table,fileName2)
+macopen(fileName2)
+
+
