@@ -23,9 +23,10 @@ yankee_injury = 3;
 offense_home = var1+var2+var3; %change eq
 offense_away = var6+var7+var8;%change eq
 
-%%deffense
-deffense_home = var1+var2+var3; %change eq
-deffense_away = var6+var7+var8;
+%%defense
+defense_home = var1+var2+var3; %change eq
+defense_away = var6+var7+var8;
+
 %%pitching
 pitching_home = var4+var2+var3; %change eq
 pitching_away = var8+var9+var7;
@@ -40,6 +41,6 @@ end
 win_rate_home =  1
 end
 v = mean(win_rate_home); %mean win rate across all simulations
-SE = sqrt((mean(win_rate_home_squared_2)-v*v)/(simulation_runs-1)); $standarde error of win rate
+SE = sqrt((mean(win_rate_home_squared_2)-v*v)/(simulation_runs-1)); %standarde error of win rate
 end
 
