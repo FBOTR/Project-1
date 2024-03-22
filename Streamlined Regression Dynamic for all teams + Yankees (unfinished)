@@ -10,6 +10,16 @@ R2Values_yankees = zeros(numel(stat_names), 1); % Initial R^2 values array for Y
 correlation_with_win_all = zeros(numel(stat_names), 1); % Initial correlation coefficients array for all teams
 correlation_with_win_yankees = zeros(numel(stat_names), 1); % Initial correlation coefficients array for Yankees
 
+% Initialize arrays to store filtered values as cell arrays of strings
+R2_all_greater_than_05 = {};
+R2_all_less_than_neg_05 = {};
+R2_yankees_greater_than_05 = {};
+R2_yankees_less_than_neg_05 = {};
+Corr_greater_than_05 = {};
+Corr_less_than_neg_05 = {};
+yankees_Corr_greater_than_05 = {};
+yankees_Corr_less_than_neg_05 = {};
+
 % Perform linear regression, calculate R^2 values, and compute correlation coefficients for each predictor variable
 for i = 1:numel(stat_names)
 %check if variable is numeric
@@ -43,6 +53,34 @@ for i = 1:numel(stat_names)
     
     % Display R^2 value and correlation coefficient for Yankees
     disp(['Yankees - R^2 Value for ', stat_names{i}, ': ', num2str(R2Values_yankees(i)), ', Correlation with win percentage: ', num2str(correlation_with_win_yankees(i))]);
+    
+    % Check if R2 values greater than 0.5 or less than -0.5
+     if R2Values_all(i) >= 0.5
+         R2_all_greater_than_05 = [R2_all_greater_than_05; stat_names{i}];
+     elseif R2Values_all(i) <= -0.5
+        R2_all_less_than_neg_05 = [R2_all_less_than_neg_05; stat_names{i}];
+     end
+        
+     % Check Yankees
+     if R2Values_yankees(i) >= 0.5
+          R2_yankees_greater_than_05 = [R2_yankees_greater_than_05; stat_names{i}];
+     elseif R2Values_yankees(i) <= -0.5
+          R2_yankees_less_than_neg_05 = [R2_yankees_less_than_neg_05; stat_names{i}];
+     end
+
+     % Repeat with correlation values:
+     if correlation_with_win_all(i) >= 0.5
+          Corr_greater_than_05 = [Corr_greater_than_05; stat_names{i}];
+     elseif correlation_with_win_all(i) <= -0.5
+          Corr_less_than_neg_05 = [Corr_less_than_neg_05; stat_names{i}];
+     end
+        
+     % Check if the correlation coefficient meets the threshold for Yankees
+     if correlation_with_win_yankees(i) >= 0.5
+          yankees_Corr_greater_than_05 = [yankees_Corr_greater_than_05; stat_names{i}];
+     elseif correlation_with_win_yankees(i) <= -0.5
+          yankees_Corr_less_than_neg_05 = [yankees_Corr_less_than_neg_05; stat_names{i}];
+     end
     else
         disp(['Variable "', stat_names{i}, '" is not numeric, variable skipped.']);
     end
@@ -62,3 +100,22 @@ disp("Results for all teams");
 disp(table_all_sorted);
 disp("Results for the Yankees");
 disp(table_yankees_sorted);
+
+% Display the arrays
+disp("All R2 values greater than or equal to 0.5:");
+disp(R2_all_greater_than_05);
+disp("All R2 values less than or equal to -0.5:");
+disp(R2_all_less_than_neg_05);
+disp("Yankees R2 values greater than or equal to 0.5:");
+disp(R2_yankees_greater_than_05);
+disp("Yankees R2 values less than or equal to -0.5:");
+disp(R2_yankees_less_than_neg_05);
+
+disp("All correlation values greater than or equal to 0.5:");
+disp(Corr_greater_than_05);
+disp("All correlation values less than or equal to -0.5:");
+disp(Corr_less_than_neg_05);
+disp("Yankees correlation values greater than or equal to 0.5:");
+disp(yankees_Corr_greater_than_05);
+disp("Yankees correlation values less than or equal to -0.5:");
+disp(yankees_Corr_less_than_neg_05);
