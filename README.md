@@ -13,4 +13,4 @@ Based on these statistics we can learn more about what makes a team better and w
 
 **Step 4:** Run the Monte Carlo Simulation
 
-**Step 5:** Make Money. 
+**Step 5:** Make Money (Hopefully). 
