@@ -210,6 +210,7 @@ disp(all_corr_table);
 disp(['Equation: Win Percentage = ', num2str(intercept), ' + ', num2str(slope), ' * Normalized Predictor for all teams'])
 disp(['Equation: Win Percentage = ', num2str(yank_intercept), ' + ', num2str(y_slope), ' * Normalized Predictor for Yankees'])
 
+%Finn's Code: 
 fileName='BaseballStatsYankees.xlsx';
 fileNametemplate = 'BaseballStatsYankees_template.xlsx'
 
