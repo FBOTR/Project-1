@@ -38,7 +38,8 @@ for i = 1:numel(stat_names)
     
     % Filter data for Yankees
     yankees_data = fangraph_data(fangraph_data.Team == "NYY", :);
-    
+    normalized_predictor_for_yankees = (yankees_data.(stat_names{i}) - min(yankees_data.(stat_names{i}))) / (max(yankees_data.(stat_names{i})) - min(yankees_data.(stat_names{i})));
+
     % Linear regression with normalized predictor for Yankees
     model_yankees = fitlm((yankees_data.(stat_names{i}) - min(yankees_data.(stat_names{i}))) / (max(yankees_data.(stat_names{i})) - min(yankees_data.(stat_names{i}))), yankees_data.Win_);
     
