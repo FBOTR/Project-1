@@ -1,3 +1,4 @@
+%Chris's Code
 %extract data
 fangraph_data = readtable("Data_AllTeams_2002_2022.csv");
 % Extract the names of all the columns (variables) in the table
