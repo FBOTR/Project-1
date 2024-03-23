@@ -192,11 +192,22 @@ all_corr_table = table(all_corr_variables, all_corr_r_values, all_corr_r2_values
     'VariableNames', {'Variable', 'CorrelationCoefficient', 'R2Value'});
 all_corr_table = sortrows(all_corr_table, 'R2Value', 'descend');
 
+%estimate the coefficients for each linear regression model
+coefficients = model_all.Coefficients.Estimate;
+% Extract the intercept and slope
+intercept = coefficients(1);
+slope = coefficients(2);
+y_coefficients = model_yankees.Coefficients.Estimate;
+yank_intercept = y_coefficients(1);
+y_slope = y_coefficients(2);
+
 % Display the tables
 disp("Final table for Yankees correlation variables:");
 disp(yankees_corr_table);
 disp("Final table for all teams correlation variables:");
 disp(all_corr_table);
+disp(['Equation: Win Percentage = ', num2str(intercept), ' + ', num2str(slope), ' * Normalized Predictor for all teams'])
+disp(['Equation: Win Percentage = ', num2str(yank_intercept), ' + ', num2str(y_slope), ' * Normalized Predictor for Yankees'])
 
 fileName='BaseballStatsYankees.xlsx';
 fileNametemplate = 'BaseballStatsYankees_template.xlsx'
