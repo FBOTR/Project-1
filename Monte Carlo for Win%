@@ -1,37 +1,58 @@
-%%%% Control variate for call option.
-%%% control variate : stock price
-%%% v1, SE1 --- control variate with b=1
-%%% v2, SE2 --- control variate with b = b^* (estimated from sample)
-%%% v3, SE3 --- plain MC
-%%% r --- interest rate
-%%% sigma -- volatility
-%%% T --- maturity time
-%%%% S0 --- initial stock price
-%%% K ---strike'
-%%% n -- number of replication
-function [v1, SE1, v2, SE2, v3, SE3] = MC_control_call(S0, r, sigma, T, K, n)
-X = zeros(1,n);
-Y = zeros(1,n);
-H = zeros(1,n);
-for i = 1:n
-Z = normrnd(0,1);
-S = S0*exp((r-0.5*sigma*sigma)*T+sigma*sqrt(T)*Z);
-X(i) = exp(-r*T)*(S-K);
-if X(i)<0
-X(i)=0;
-end
-Y(i) = exp(-r*T)*S-S0;
-end
-b = 1;
-H = X-b*Y;
-v1 = mean(H);
-SE1 = sqrt((mean(H.*H)-v1*v1)/(n-1));
-b = sum((X-mean(X)).*(Y-mean(Y)))/sum((Y-mean(Y)).*(Y-mean(Y)));
-H = X-b*Y;
-v2 = mean(H);
-SE2 = sqrt((mean(H.*H)-v2*v2)/(n-1));
-v3 = mean(X);
-SE3 = sqrt((mean(X.*X)-v3*v3)/(n-1));
+%extract data
+fangraph_data = readtable("Data_AllTeams_2002_2022.csv");
+% Extract the names of all the columns (variables) in the table
+stat_names = fangraph_data.Properties.VariableNames(3:end);
+% Perform linear regression, calculate R^2 values, and compute correlation coefficients for each predictor variable
+for i = 1:numel(stat_names)
+%check if variable is numeric
+    if isnumeric(fangraph_data.(stat_names{i}))
+    % Normalize the predictor variable
+    normalized_predictor = (fangraph_data.(stat_names{i}) - min(fangraph_data.(stat_names{i}))) / (max(fangraph_data.(stat_names{i})) - min(fangraph_data.(stat_names{i})));
+    
+    % Linear regression with normalized predictor for all teams
+    model_all = fitlm(normalized_predictor, fangraph_data.Win_);
+ % Filter data for Yankees
+    yankees_data = fangraph_data(fangraph_data.Team == "NYY", :);
+    normalized_predictor_for_yankees = (yankees_data.(stat_names{i}) - min(yankees_data.(stat_names{i}))) / (max(yankees_data.(stat_names{i})) - min(yankees_data.(stat_names{i})));
+    
+    % Linear regression with normalized predictor for Yankees
+    model_yankees = fitlm((yankees_data.(stat_names{i}) - min(yankees_data.(stat_names{i}))) / (max(yankees_data.(stat_names{i})) - min(yankees_data.(stat_names{i}))), yankees_data.Win_);
+    else
+        disp(['Variable "', stat_names{i}, '" is not numeric, variable skipped.']);
+    end
 end
 
+y_coefficients = model_yankees.Coefficients.Estimate;
+yank_intercept = y_coefficients(1);
+y_slope = y_coefficients(2);
 
+% Define parameters
+num_simulations = 5000;  % Number of simulations
+
+% Initialize array to store simulated win percentages
+simulated_win_percentages = zeros(num_simulations, 1);
+
+% Extract the predictor variable used in the linear regression model for the Yankees
+predictor_variable = yankees_data.(stat_names{i});  % Replace 'i' with the index of the desired predictor variable
+
+% Perform simulation
+for sim = 1:num_simulations
+    % Generate a random predictor variable value
+    random_predictor_value = rand();  % Generate a single random value between 0 and 1
+    
+    % Normalize the random predictor variable value
+    normalized_random_predictor = (random_predictor_value - min(predictor_variable)) / (max(predictor_variable) - min(predictor_variable));
+    
+    % Predict win percentage using linear regression equation for Yankees
+    predicted_win_percentage = yank_intercept + y_slope * normalized_random_predictor;
+    
+    % Store predicted win percentage
+    simulated_win_percentages(sim) = predicted_win_percentage;
+end
+
+% Analyze the results
+mean_predicted_win_percentage = mean(simulated_win_percentages);
+std_dev_predicted_win_percentage = std(simulated_win_percentages);
+% Display the mean predicted win percentage
+disp(['The mean predicted win percentage is: ', num2str(mean_predicted_win_percentage)]);
+disp(['The SD for predicted win percentage is: ', num2str(std_dev_predicted_win_percentage)]);
