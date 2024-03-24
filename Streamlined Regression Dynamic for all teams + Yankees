@@ -29,26 +29,26 @@ for i = 1:numel(stat_names)
     normalized_predictor = (fangraph_data.(stat_names{i}) - min(fangraph_data.(stat_names{i}))) / (max(fangraph_data.(stat_names{i})) - min(fangraph_data.(stat_names{i})));
     
     % Linear regression with normalized predictor for all teams
-    model_all = fitlm(normalized_predictor, fangraph_data.Win_);
+    model_all = fitlm(normalized_predictor, fangraph_data.WinP);
     
     % Store R^2 value for all teams
     R2Values_all(i) = model_all.Rsquared.Ordinary;
     
     % Compute correlation coefficient with win percentage for all teams
-    correlation_with_win_all(i) = corr(fangraph_data.Win_, fangraph_data.(stat_names{i}));
+    correlation_with_win_all(i) = corr(fangraph_data.WinP, fangraph_data.(stat_names{i}));
     
     % Filter data for Yankees
     yankees_data = fangraph_data(fangraph_data.Team == "NYY", :);
     normalized_predictor_for_yankees = (yankees_data.(stat_names{i}) - min(yankees_data.(stat_names{i}))) / (max(yankees_data.(stat_names{i})) - min(yankees_data.(stat_names{i})));
 
     % Linear regression with normalized predictor for Yankees
-    model_yankees = fitlm((yankees_data.(stat_names{i}) - min(yankees_data.(stat_names{i}))) / (max(yankees_data.(stat_names{i})) - min(yankees_data.(stat_names{i}))), yankees_data.Win_);
+    model_yankees = fitlm((yankees_data.(stat_names{i}) - min(yankees_data.(stat_names{i}))) / (max(yankees_data.(stat_names{i})) - min(yankees_data.(stat_names{i}))), yankees_data.WinP);
     
     % Store R^2 value for Yankees
     R2Values_yankees(i) = model_yankees.Rsquared.Ordinary;
     
     % Compute correlation coefficient with win percentage for Yankees
-    correlation_with_win_yankees(i) = corr(yankees_data.Win_, yankees_data.(stat_names{i}));
+    correlation_with_win_yankees(i) = corr(yankees_data.WinP, yankees_data.(stat_names{i}));
     
     % Display R^2 value and correlation coefficient for all teams
     disp(['All Teams - R^2 Value for ', stat_names{i}, ': ', num2str(R2Values_all(i)), ', Correlation with win percentage: ', num2str(correlation_with_win_all(i))]);
