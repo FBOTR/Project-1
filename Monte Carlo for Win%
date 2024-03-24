@@ -1,3 +1,4 @@
+Jack's Code: Final version for Monte Carlo
 fangraph_data = readtable('/Users/johnkelly/Downloads/DataforMonte.csv');
 % Extract the names of all the columns (variables) in the table
 stat_names = fangraph_data.Properties.VariableNames(3:end);
