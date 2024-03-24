@@ -1,4 +1,14 @@
 %Jack's Code: Final version for Monte Carlo
+%%%I forgot to trac my hours with the pish but i can provide them here
+%4.5 hours on montecarlo research on how to implement it on matlab
+%5 hours on the first version of montecarlo using the correlation question we found from linear regression (ended up scrapping because beyond_pythgorean expectation was superior with predictions)
+%6.5 hours on the final version of Montecarlo betweeen code implmenetation, debugging the outer loop to run simulated seasons given the stats of the yankees
+%1.5 hours on finding montecarlo strategies to lower variation in the results.
+%3.5 hours doing data minipulatoin for the csv files onto excel to use for linear regression and montecarlo whether cleaning up the data, making new columns to use, or deleting skewed seaosn like 2020
+%3 hours making the linear regression model dynamic for any sized table from a given csv, also so we didn't have to individually calculate each R and R^2 value for every stat.
+%30 minutes writing the full and comprehensive README.md  
+%1.5 hours researching win chance equations and found Beyond_Pythagorean_expectation
+
 fangraph_data = readtable('/Users/johnkelly/Downloads/DataforMonte.csv');
 % Extract the names of all the columns (variables) in the table
 stat_names = fangraph_data.Properties.VariableNames(3:end);
