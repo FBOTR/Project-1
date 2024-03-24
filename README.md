@@ -24,4 +24,5 @@ The Monte Carlo method considers the total games played and calculates the remai
 **Step 5:** 
 These results can be used to make informed predictions about how the Yankees will perform based on their preseason or early-season statistics.
 
-![Screen Recording 2024-03-23 at 10 49 59 PM](https://github.com/FBOTR/Project-1/assets/162471452/f2aada81-c2ed-4b65-8224-72d1fccd4557)
+
+![Screen Recording 2024-03-23 at 10 49 59 PM (1)](https://github.com/FBOTR/Project-1/assets/162471452/0663f2e9-acba-4c4b-bf5a-db3c65f9ae8d)
