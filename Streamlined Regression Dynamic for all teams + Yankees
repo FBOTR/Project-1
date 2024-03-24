@@ -1,4 +1,4 @@
-%Chris and Jack
+%Chris and Jack regression dynamic to csv file and table made, finds linear regression for all stats columns. CSV file only needs to have win percentage named WinP
 % Load the data from the CSV file into a table
 fangraph_data = readtable('/Users/johnkelly/Downloads/updated_data_all_teams.csv');
 
