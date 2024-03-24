@@ -1,4 +1,5 @@
-%Chris's version of Monte Carlo Simulation: needed to fix this version because the standard deviation was too high
+%Chris and Jack's version of Monte Carlo Simulation: needed to fix this version because the standard deviation was too high
+%example, gave us a win percentage of 0.50 with std of 0.2... not really helpful
 %extract data
 fangraph_data = readtable("Data_AllTeams_2002_2022.csv");
 % Extract the names of all the columns (variables) in the table
